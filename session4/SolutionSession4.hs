@@ -5,7 +5,10 @@ module SolutionSession4(
     mylast,
     wrapup,
     rle,
-    triples
+    triples,
+    isolate,
+    amy,
+    frequencies,
 ) where
 
 -- Preparatory exercises
@@ -103,3 +106,39 @@ triples vs = (xs, ys, zs)
         zs = [z | (_, _, z) <- vs]
 
 -- Not sure I'm understanding this one correctly, though.
+
+-- Supplementary exercises
+-- Exercise a
+-- The function isolate takes a list l and an element x and returns a pair of two new lists (l1 , l2). The
+-- first list l1 is a list that contains all elements in l that are not equal to x. The second list l2 is a list
+-- that contains all occurrences of x in l.
+isolate :: (Eq a) => [a] -> a -> ([a], [a])
+isolate xs e = (isNotIn, isIn)
+    where
+        isIn = [x | x <- xs, x == e]
+        isNotIn = [x | x <- xs, x /= e]
+
+-- Exercise b
+-- Define a function amy that will tell us if any elements of a list satisfy a given predicate
+-- ... just like 'any'
+amy :: Eq a => (a -> Bool) -> [a] -> Bool
+amy p xs = or (map p xs)
+
+-- Exercise c
+-- Create a function frequencies that, given a string s, creates a list of pairs [( x1,f1) ,....( xk,fk)] such
+-- that if the character xi occurs a total number of fi times throughout the list s, then the list of pairs
+-- will contain the pair (xi, fi ).
+frequencies :: [Char] -> [(Char, Int)]
+frequencies [] = []
+frequencies (x:xs) = (x, length [y | y <- xs, y == x] + 1) : frequencies [y | y <- xs, y /= x]
+
+-- Exercise d
+-- A theorem in number theory states that every non-zero real number x can be written as a continued
+-- fraction. This is a potentially infinite expression of the form (shown illustration)...
+-- For rational numbers, the a_i's will eventually all be 0, so the continued fraction is finite; for irrational
+-- numbers, the continued fraction will be infinite. See e.g. [1] for more.
+-- The goal of this problem is to write a Haskell function cfrac that will, given a real number r and a
+-- natural number n, finds the list of the first n numbers in the continued fraction expansion of r. What
+-- should the type of cfrac be?
+
+-- Out of time & not sure how to proceed.
