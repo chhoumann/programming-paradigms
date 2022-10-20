@@ -4,7 +4,9 @@ module SolutionSession5(
     within,
     sumrows,
     approx,
-    fingo
+    fingo,
+    foltr,
+    remove
 ) where
 
 -- Preliminary exercises
@@ -73,12 +75,44 @@ approx n = sum (map (\x -> 1/product [1..x]) [0..n])
 fingo :: [a] -> [a] -> [a]
 fingo xs ys = foldr (:) xs ys
 
--- Looks like it appends a list to another list.
--- Why it does it sounds like more of a philosophical question.
--- But I'll take it asks me for the explanation of how it does what it does.
--- When called, you are actually writing
--- fingo (:) [1,2,3] (4:(5:[]))
--- which expands to
--- (4:(5:[1,2,3]))
--- which evaluates to
--- [4,5,1,2,3]
+{- 
+Looks like it appends a list to another list.
+Why it does it sounds like more of a philosophical question.
+But I'll take it asks me for the explanation of how it does what it does.
+
+When called, you are actually writing
+fingo (:) [1,2,3] (4:(5:[]))
+which expands to
+(4:(5:[1,2,3]))
+which evaluates to
+[4,5,1,2,3]
+ -}
+
+-- Exercise 5
+{-
+The function map can be applied to any function, so we can write map map. What is the type of
+map map? Figure this out without asking the Haskell interpreter – try to justify your answer and
+only then ask the interpreter.
+--
+I'm pretty sure the type is something like
+-}
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = [f x | x <- xs]
+-- And after asking the compiler, turns out I was right.
+
+-- Supplementary exercises
+-- Exercise a
+{-
+How can we implement the filter function using foldr?
+-}
+foltr :: (a -> Bool) -> [a] -> [a]
+foltr f = foldr (\x rs -> [x | f x] ++ rs) []
+
+-- Exercise b
+{-
+Use foldr to define a function remove which takes two strings as its arguments and removes every
+letter from the second list that occurs in the first list. For example, remove ”first” ”second” should
+give us ”econd”. First find out what the type of the function should be.
+-}
+remove :: [Char] -> [Char] -> [Char]
+remove fs = foldr () []

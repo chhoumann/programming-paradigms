@@ -33,3 +33,13 @@ main = hspec $ do
     describe "Session5.fingo" $ do
         it "appends list to another list" $ do
             fingo [1,2,3,4] [5,6] `shouldBe` [5,6,1,2,3,4]
+
+    describe "Session5.foltr" $ do
+        it "filters list elements given predicate" $ do
+            let tls1 = [1,2,3,4,5]
+            foltr even tls1 `shouldBe` filter even tls1
+            foltr odd tls1 `shouldNotBe` filter even tls1
+
+    describe "Session5.remove" $ do
+        it "removes all chars from second passed string that is in first passed string" $ do
+            remove "first" "second" `shouldBe` "econd"
