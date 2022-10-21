@@ -6,7 +6,8 @@ module SolutionSession5(
     approx,
     fingo,
     foltr,
-    remove
+    remove,
+    min2
 ) where
 
 -- Preliminary exercises
@@ -115,4 +116,25 @@ letter from the second list that occurs in the first list. For example, remove �
 give us ”econd”. First find out what the type of the function should be.
 -}
 remove :: [Char] -> [Char] -> [Char]
-remove fs = foldr () []
+remove fs = foldr (\x rs -> ([x | not (or [x == v | v <- fs])]) ++ rs) []
+
+-- Exercise c
+{-
+The function min2 takes a list of numbers and returns the second-smallest number of the input list. If
+a list contains duplicates, the second-smallest number and the smallest number can be identical; then
+the function should return that number. Assume that every input lists contains at least two numbers.
+As an example, min2 [2110, 4820, 3110, 4120] should give us 3110 and min2 [2110, 4820, 2110, 4120]
+should give us 2110.
+Define the min2 function using the higher-order functions in Chater 7.
+-}
+min2 xs = let [u, v] = least2 xs -- we take [u, v] from calling least2 on xs
+    in max u v -- and use in _in_ this expression, the result of which we return
+    where
+        least2 (x:y:(xs)) = foldl leasts [x,y] xs -- find the smallest pair in the list
+            where
+                leasts [y,z] x = if x < y
+                    then [x, min y z]
+                    else [y, min x z]
+
+-- Spent a while on this one, but couldn't find a solution. What you see above is the lecturer's solution (slightly modified).
+-- I'll try to explain it with comments.

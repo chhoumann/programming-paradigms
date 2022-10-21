@@ -43,3 +43,8 @@ main = hspec $ do
     describe "Session5.remove" $ do
         it "removes all chars from second passed string that is in first passed string" $ do
             remove "first" "second" `shouldBe` "econd"
+
+    describe "Session5.min2" $ do
+        it "takes a list of numbers and returns the second smallest number of the input list" $ do
+            min2 [2110, 4820, 3110, 4120] `shouldBe` 3110
+            min2 [4820, 2110, 2110, 4120] `shouldBe` 2110
