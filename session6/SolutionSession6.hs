@@ -19,7 +19,7 @@ unary2int (I n) = 1 + unary2int n
 -- Use the declaration of the type Tree on page 97 to define a function least that finds the
 -- least element in a given binary tree.
 -- What should the type of least be?
-data Tree a = Leaf a | Empty | Node (Tree a) a (Tree a) 
+data Tree a = Leaf a | Empty | Node (Tree a) a (Tree a)
 
 least :: Tree Int -> Int
 least t = minimum (flatten t)
@@ -128,3 +128,75 @@ countLeaves :: Tree a -> Int
 countLeaves Empty = 0
 countLeaves (Leaf _) = 1
 countLeaves (Node l _ r) = countLeaves l + countLeaves r
+
+
+-- Supplementary Exercises
+
+{- 
+Exercise a
+Complete the following instance declaration:
+instance Eq a => Eq (Maybe a) where
+-}
+
+{- 
+Explainer: (Maybe a) is an instance of type class Eq if a is a member of typeclass Eq, and the operations are defined as...
+instance Eq a => Eq (Maybe a) where 
+    Just x == Just y = x == y
+    Nothing == Nothing = True
+    x == y = False 
+    
+Commented out because it is already defined in GHC.Maybe
+-}
+
+
+{-
+On page 106 there is a definition of the Expr datatype for expressions. Define a higher-order function
+foldexp :: (Int −> a) −> (a −> a −> a) −> Expr −> a
+such that foldexp f g replaces each Val constructor in an expression by the function f, and each Add
+constructor by the function g.
+Then use foldexp f g (with appropriate choices for f and g) to define a function eval :: Expr −> Int
+that evaluates an expression to an integer value.
+-}
+
+-- Slightly modified to avoid duplicates (further above)
+-- and extended to include multiplication
+data Expr = Val Int | Add' Expr Expr | Mult' Expr Expr
+
+foldexp :: (Int -> a) -> (a -> a -> a) -> (a -> a -> a) -> Expr -> a
+foldexp f _ _ (Val x) =  f x
+foldexp f g h (Add' x y) = x' `g` y'
+    where
+        x' = foldexp f g h x
+        y' = foldexp f g h y
+foldexp f g h (Mult' x y) = x' `h` y'
+    where
+        x' = foldexp f g h x
+        y' = foldexp f g h y
+
+eval' :: Expr -> Int
+eval' = foldexp id (+) (*)
+
+{-
+Exercise c
+Use insert as you have defined it in problem 4 to define a function build that will build a search tree
+from a given list.
+Use build to define a function sort that can sort any given list.
+-}
+build :: [Int] -> Tree Int
+build xs = build' Empty xs
+    where
+        build' :: Tree Int -> [Int] -> Tree Int
+        build' t [] = t
+        build' t [x] = insert t x
+        build' t (x:xs) = build' (insert t x) xs
+
+{- 
+Exercise d
+This problem refers to Section 8.6 in the book and the types and functions defined there.
+Two Boolean propositions p and q are equivalent if they are true for the same substitutions, that is,
+for every substitution s we have that p is true under s if and only if q is true under s. Define a function
+equiv where
+equiv :: Prop −> Prop −> Bool
+and such that equivpq returns True if p and q are equivalent and False otherwise.
+-}
+-- Leaving this unsolved.

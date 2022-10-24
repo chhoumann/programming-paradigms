@@ -54,7 +54,7 @@ main = hspec $ do
         it "returns a search tree after insertion in a search tree" $ do
             let st = Node (Leaf 1) 2 (Leaf 3)
             let ft = Node (Node (Leaf 1) 2 Empty) 2 (Leaf 3)
-            
+
             -- Just making sure
             flatten st `shouldBe` [1,2,3]
             flatten ft `shouldBe` [1,2,2,3]
@@ -88,3 +88,15 @@ main = hspec $ do
 
             let bt2 = Node (Node (Node (Leaf 2) 2 (Leaf 1)) 3 (Leaf 3)) 4 (Node Empty 2 Empty)
             isBalanced bt2 `shouldBe` False
+
+        describe "Session6.eval'" $ do
+            it "evaluates expression" $ do
+                let e = Val 3 `Add'` Val 2
+                eval' e `shouldBe` 5
+
+                let e1 = Val 3 `Mult'` (Val 2 `Add'` Val 19)
+                eval' e1 `shouldBe` 63
+
+        describe "Session6.build'" $ do
+            it "builds a search tree from an int list" $ do
+                flatten (build [1,2,3]) `shouldBe` [1,2,3]
