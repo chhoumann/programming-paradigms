@@ -19,4 +19,4 @@ main :: IO()
 main = hspec $ do
     describe \"Session$1.placeholder\" $ do\n" > $dir/test.hs
 
-echo "module SolutionSession$1(\n\n) where\n" > $dir/SolutionSession$1.hs
+echo "module SolutionSession$1 where\n" > $dir/SolutionSession$1.hs
