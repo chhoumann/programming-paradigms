@@ -1,5 +1,4 @@
 module SolutionSession9 where
-import qualified SolutionSession6 as example
 
 -- PREPARATORY EXERCISES - EXERCISE 1
 {-
